@@ -17,11 +17,22 @@ const App = () => {
 
      const { artista, cancion } = busqueda;
      //https://api.lyrics.ovh/v1/Coldplay/Adventure%20of%20a%20Lifetime
-     const url = `https://api.lyrics.ovh/v1/${artista}/${cancion}`
-     const resultado = await axios(url);
-     console.log(resultado.data.lyrics)
+      const url = `https://api.lyrics.ovh/v1/${artista}/${cancion}`
+      let resultado = {}
+      try{
+        resultado = await axios(url);
+      }catch(e){
 
-     agregarLetra(resultado.data.lyrics)
+
+      }
+       
+      
+     if(resultado.data ){
+        if(resultado.data.lyrics ){
+           agregarLetra(resultado.data.lyrics)
+        }
+     }
+     
      agregarArtista(artista)
      
   }
@@ -30,9 +41,17 @@ const App = () => {
   const consultarAPIInfo = async () => {
       if(artista){
         const url = `https://theaudiodb.com/api/v1/json/1/search.php?s=${artista}`;
-        const resultado = await axios(url);
-        if(resultado.data.artists  ){
-            agregarInfo(resultado.data.artists[0]);
+        let resultado = {}
+        try{
+          resultado = await axios(url);
+        }catch(e){
+
+
+        }
+        if(resultado.data  ){
+          if(resultado.data.artists  ){
+              agregarInfo(resultado.data.artists[0]);
+          }
         }
         
         // console.log(info);
